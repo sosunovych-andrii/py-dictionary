@@ -73,7 +73,6 @@ class Dictionary:
 
         raise KeyError(f"No such key {key}")
 
-
     def get(self, key: Any, default: Any = None) -> Any:
         hash_key = hash(key)
         index = hash_key % self._capacity
