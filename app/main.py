@@ -71,6 +71,9 @@ class Dictionary:
             index += 1
             index %= self._capacity
 
+        raise KeyError(f"No such key {key}")
+
+
     def get(self, key: Any, default: Any = None) -> Any:
         hash_key = hash(key)
         index = hash_key % self._capacity
@@ -91,7 +94,10 @@ class Dictionary:
             node = self._hash_table[index]
             if node.key == key:
                 self._hash_table[index] = None
+                self._length -= 1
                 return node.value
+            index += 1
+            index %= self._capacity
 
     def update(self) -> None:
         # оновленння ємкості та створення оновленої таблиці
@@ -101,7 +107,7 @@ class Dictionary:
         for node in self._hash_table:
             # якщо Node не None обчислюємо для неї індекс
             if node is not None:
-                index = node.hash_key % self._capacity
+                index = hash(node.key) % self._capacity
                 # вирішенняя колізії
                 while new_hash_table[index] is not None:
                     index += 1
